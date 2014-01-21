@@ -1,0 +1,6 @@
+*.pyc
+.idea/*
+local_env.py
+.DS_Store
+notes.txt
+tmp/*
