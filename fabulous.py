@@ -3,23 +3,21 @@ from prettytable import PrettyTable as _pretty_table
 from fabric.api import *
 from fabric.colors import green as _green, yellow as _yellow, red as _red
 from global_conf import *
+from conf.parse_config import parse_ini
 import time
 
 
 env_config = None
-ec2_amis = None
-ec2_keypair = None
-ec2_secgroups = None
-ec2_instancetype = None
 fabconf = None
 recipe = None
 
 
-def create_instance(instance_type):
+def create_instance():
     """
     This does the real work for the ulous() task. Is here to provide backwards compatibility
     """
     start_time = time.time()
+
     print(_green("Started..."))
     env.environment = None
     while env.environment not in ('Staging', 'Production'):
@@ -27,9 +25,9 @@ def create_instance(instance_type):
         setattr(env, 'environment', environment.strip().capitalize())
 
     try:
-        exec("from recipes.conf_%s_%s import *" % (instance_type, env.environment.lower()), globals())
+        fabconf, env_config = parse_ini()
     except Exception as e:
-        print(_red('Exception are using incorrect instance conf name: {}'.format(str(e))))
+        print(_red('Exception parsing config file: {}'.format(str(e))))
         exit()
     env.user = fabconf['SERVER_USERNAME']
     env.key_filename = fabconf['SSH_PRIVATE_KEY_PATH']
@@ -41,8 +39,8 @@ def create_instance(instance_type):
     print(_green("Waiting 60 seconds for server to boot..."))
     time.sleep(60)
     try:
-        exec("from recipes.cook_%s_%s import create_recipe as recipe" %
-             (instance_type, env.environment.lower()), globals())
+        exec("from recipes.default import create_recipe_%s as recipe" %
+             (env.environment.lower()), globals())
     except Exception as e:
         print(_red('You are using incorrect instance conf name: {}'.format(str(e))))
         exit()
@@ -143,13 +141,14 @@ def deploy(instance_type):
         print(_red('Error must run for an enviroment (e.g fab staging deploy)'))
         exit()
     try:
-        exec("from recipes.conf_%s import *" % instance_type, globals())
+        fabconf, env_config = parse_ini()
     except Exception as e:
-        print(_red('Exception are using incorrect instance conf name: {}'.format(str(e))))
+        print(_red('Exception parsing config file: {}'.format(str(e))))
         exit()
 
     try:
-        exec("from recipes.cook_%s import production_deploy_recipe as recipe" % instance_type, globals())
+        exec("from recipes.default import deploy_recipe_%s as recipe" %
+             (env.environment.lower()), globals())
 
     except Exception as e:
         print(_red('Exception are using incorrect instance conf name: {}'.format(str(e))))

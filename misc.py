@@ -7,8 +7,21 @@ import boto.ec2.networkinterface
 import boto.ec2.address
 import boto.ec2.elb
 import time
-from fabulous import env_config, ec2_amis, ec2_key, ec2_secret, ec2_secgroups, ec2_keypair, ec2_instancetype, fabconf, \
-    recipe
+from fabulous import  ec2_key, ec2_secret,  recipe
+
+try:
+    ec2_amis = env.ec2_amis
+    ec2_secgroups = env.ec2_secgroups
+    ec2_keypair = env.ec2_keypair
+    ec2_instancetype = env.ec2_instancetype
+except:
+    pass
+
+try:
+    env_config = env.env_config
+    fabconf = env.fabconf
+except:
+    pass
 
 
 def _destroy_instance(instance):
