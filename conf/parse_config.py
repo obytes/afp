@@ -1,23 +1,18 @@
 # -*- coding: utf-8 -*-
 import os.path
+import boto
+import boto.ec2.elb
+import subprocess
 from ConfigParser import SafeConfigParser
 from fabric.api import env
-from fabric.api import prompt
-from fabric.colors import green as _green
-
-ec2_key = ""
-ec2_secret = ""
+from fabric.colors import green as _green, yellow as _yellow, red as _red
+from ..global_conf import ec2_key, ec2_secret
 
 BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), os.path.pardir)
 
 
 def _base(f=''):
     return os.path.join(BASE_DIR, f)
-
-global ec2_amis
-global ec2_keypair
-global ec2_secgroups
-global ec2_instancetype
 
 def parse_ini():
     parser = SafeConfigParser()
@@ -38,17 +33,17 @@ def parse_ini():
     _green("Parsing config.ini file")
 
     for name, value in parser.items('CONFIG'):
-        print '  %s = %s' % (name, value)
+        #print '  %s = %s' % (name, value)
         fabconf['%s'%name.upper()] = value
 
     for name, value in parser.items('%s'%env.environment.upper()):
-        print '  %s = %s' % (name, value)
+        #print '  %s = %s' % (name, value)
         fabconf['%s'%name.upper()] = value
 
     env_config = {}
 
     for name, value in parser.items('%s_ENV_CONFIG'%env.environment.upper()):
-        print '  %s = %s' % (name, value)
+        #print '  %s = %s' % (name, value)
         env_config['%s'%name.upper()] = value
 
 
@@ -61,5 +56,45 @@ def parse_ini():
     env.ec2_keypair = fabconf['EC2_KEYPAIR']
     env.ec2_secgroups = [fabconf['EC2_SECGROUPS']]
     env.ec2_instancetype = fabconf['EC2_INSTANCETYPE']
+    print(_yellow("Load balancers verification..."))
+    conn = boto.ec2.elb.ELBConnection(ec2_key, ec2_secret)
+    lbs = conn.get_all_load_balancers()
+    lb_names = [lb.name for lb in lbs]
+    assert fabconf['LB_NAME'] in lb_names
+    print(_green("Load balancer name %s OK")%fabconf['LB_NAME'])
+    lb_dns_names = [lb.dns_name for lb in lbs]
+    assert fabconf['LB_URL'] in lb_dns_names
+    print(_green("Load balancer dns name %s OK")%fabconf['LB_URL'])
+
+    print(_yellow("GIT repo verification..."))
+    try :
+        subprocess.call("git ls-remote %s"%fabconf['GITHUB_REPO'], shell=True)
+        print(_green("GIT repository %s OK")%fabconf['GITHUB_REPO'])
+    except Exception, e:
+        print(_red("Please Check the provided git repository !"))
+        exit()
+
+    print(_yellow("AWS Secret Access and Key verification..."))
+    try :
+        regions = boto.connect_ec2(ec2_key, ec2_secret).get_all_regions()
+        print(_green("EC2 Key and Secret OK"))
+    except Exception, e:
+        print(_red("Please Check your AWS Secret Access Key !"))
+        exit()
+
+    print(_yellow("MEDIA and STATIC buckets verification..."))
+    conn = boto.s3.connection.S3Connection(ec2_key, ec2_secret)
+    buckets = [bucket.name for bucket in conn.get_all_buckets()]
+
+    assert env_config['S3_STATIC_BUCKET_STORAGE'] in buckets
+    print(_green("S3 STATIC BUCKET STORAGE %s OK")%env_config['S3_STATIC_BUCKET_STORAGE'])
+
+    assert env_config['S3_MEDIA_BUCKET_STORAGE'] in buckets
+    print(_green("S3 MEDIA BUCKET STORAGE %s OK")%env_config['S3_MEDIA_BUCKET_STORAGE'])
+
+
 
     return fabconf, env_config
+
+
+
