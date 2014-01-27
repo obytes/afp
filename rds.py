@@ -19,8 +19,3 @@ def rds_list():
         x.add_row([i.id, i.create_time, i.engine, i.status, i._port, i._address ])
 
     print(_yellow(x))
-
-def rds_health():
-    '''Get RDS Health'''
-    rds = boto.connect_rds(ec2_key, ec2_secret)
-    print rds.get_all_events()

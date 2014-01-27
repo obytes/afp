@@ -41,5 +41,8 @@ def deploy(instance_type):
 
     #_virtualenv('%(PROJECT_NAME)s/./manage.py resetdb') # will refresh the database - new installation(s)
     _virtualenv('%(PROJECT_NAME)s/./manage.py migrate')
+    
+    print(_green('Starting Collect Static...'))
+    _virtualenv('%(PROJECT_NAME)s/./manage.py collectstatic --noinput')
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
