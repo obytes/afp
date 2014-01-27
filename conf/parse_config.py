@@ -57,12 +57,11 @@ def parse_ini(instance_type):
     env.ec2_secgroups = [fabconf['EC2_SECGROUPS']]
     env.ec2_instancetype = fabconf['EC2_INSTANCETYPE']
 
-    print(_yellow("GIT repo verification..."))
+    print(_yellow("SSH private key verification..."))
     try :
-        subprocess.call("git ls-remote %s"%fabconf['GITHUB_REPO'], shell=True)
-        print(_green("GIT repository %s OK")%fabconf['GITHUB_REPO'])
+        open(fabconf['SSH_PRIVATE_KEY_PATH']).read()
     except Exception, e:
-        print(_red("Please Check the provided git repository !"))
+        print(_red("SSH private key does not exist in the provided path %s !"%fabconf['SSH_PRIVATE_KEY_PATH']))
         exit()
 
     print(_yellow("AWS Secret Access and Key verification..."))
@@ -92,6 +91,17 @@ def parse_ini(instance_type):
     lb_dns_names = [lb.dns_name for lb in lbs]
     assert fabconf['LB_URL'] in lb_dns_names
     print(_green("Load balancer dns name %s OK")%fabconf['LB_URL'])
+
+    print(_yellow("Security group verification..."))
+
+    try :
+        groups = boto.connect_ec2(ec2_key, ec2_secret).get_all_security_groups(groupnames=env.ec2_secgroups)
+        ports = [r.to_port for r in groups[0].rules]
+        assert '22' and '80' in ports
+        print(_green("The security group '%s' exists and has open ports to 22 and 80")%fabconf['EC2_SECGROUPS'])
+    except Exception, e:
+        print(_red("The security group '%s' does not exist in default VPC"%fabconf['EC2_SECGROUPS']))
+        exit()
 
     return fabconf, env_config
 
