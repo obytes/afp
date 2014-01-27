@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 import boto
+import time
 from prettytable import PrettyTable as _pretty_table
 from fabric.api import *
 from fabric.colors import green as _green, yellow as _yellow, red as _red
 from global_conf import *
 from conf.parse_config import parse_ini
-import time
 
+@task()
 def rds_list():
     '''List All Relational Data Service'''
     print(_green("Listing databases..."))

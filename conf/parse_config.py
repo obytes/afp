@@ -14,9 +14,9 @@ BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), os.path.pard
 def _base(f=''):
     return os.path.join(BASE_DIR, f)
 
-def parse_ini():
+def parse_ini(instance_type):
     parser = SafeConfigParser()
-    parser.read(os.path.abspath('fabfile/conf/config.ini'))
+    parser.read(os.path.abspath('fabfile/conf/%s.ini'%instance_type))
 
     parser.set('CONFIG', 'FABULOUS_PATH', os.path.join(os.path.dirname(__file__), os.path.pardir))
     parser.set('CONFIG', 'SSH_SETTING_PATH', _base('settings/ssh'))
@@ -56,15 +56,6 @@ def parse_ini():
     env.ec2_keypair = fabconf['EC2_KEYPAIR']
     env.ec2_secgroups = [fabconf['EC2_SECGROUPS']]
     env.ec2_instancetype = fabconf['EC2_INSTANCETYPE']
-    print(_yellow("Load balancers verification..."))
-    conn = boto.ec2.elb.ELBConnection(ec2_key, ec2_secret)
-    lbs = conn.get_all_load_balancers()
-    lb_names = [lb.name for lb in lbs]
-    assert fabconf['LB_NAME'] in lb_names
-    print(_green("Load balancer name %s OK")%fabconf['LB_NAME'])
-    lb_dns_names = [lb.dns_name for lb in lbs]
-    assert fabconf['LB_URL'] in lb_dns_names
-    print(_green("Load balancer dns name %s OK")%fabconf['LB_URL'])
 
     print(_yellow("GIT repo verification..."))
     try :
@@ -92,9 +83,16 @@ def parse_ini():
     assert env_config['S3_MEDIA_BUCKET_STORAGE'] in buckets
     print(_green("S3 MEDIA BUCKET STORAGE %s OK")%env_config['S3_MEDIA_BUCKET_STORAGE'])
 
-
+    print(_yellow("Load balancers verification..."))
+    conn = boto.ec2.elb.ELBConnection(ec2_key, ec2_secret)
+    lbs = conn.get_all_load_balancers()
+    lb_names = [lb.name for lb in lbs]
+    assert fabconf['LB_NAME'] in lb_names
+    print(_green("Load balancer name %s OK")%fabconf['LB_NAME'])
+    lb_dns_names = [lb.dns_name for lb in lbs]
+    assert fabconf['LB_URL'] in lb_dns_names
+    print(_green("Load balancer dns name %s OK")%fabconf['LB_URL'])
 
     return fabconf, env_config
-
 
 

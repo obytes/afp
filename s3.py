@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import boto
+import time
 from boto.s3.connection import S3Connection
 from prettytable import PrettyTable as _pretty_table
 from fabric.api import *
 from fabric.colors import green as _green, yellow as _yellow, red as _red
 from global_conf import *
-from conf.parse_config import parse_ini
-import time
 
+@task()
 def list_buckets():
     '''List All Buckets'''
 
@@ -24,6 +24,7 @@ def list_buckets():
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
 
+@task()
 def get_bucket(bucket_name):
     '''Get bucket details'''
 
@@ -39,6 +40,7 @@ def get_bucket(bucket_name):
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
 
+@task()
 def create_bucket(bucket_name):
     '''Create a bucket'''
 
@@ -55,8 +57,7 @@ def create_bucket(bucket_name):
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
 
-
-
+@task()
 def delete_bucket(bucket_name):
     '''Delete a bucket'''
 

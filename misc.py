@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 from fabric.api import *
 from fabric.colors import green as _green, yellow as _yellow, red as _red
 from global_conf import *
@@ -6,8 +7,8 @@ import boto
 import boto.ec2.networkinterface
 import boto.ec2.address
 import boto.ec2.elb
-import time
-from fabulous import  ec2_key, ec2_secret,  recipe
+from lb import recipe
+from global_conf import ec2_key, ec2_secret
 
 try:
     ec2_amis = env.ec2_amis
