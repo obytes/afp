@@ -7,7 +7,7 @@ from fabric.api import *
 from fabric.colors import green as _green, yellow as _yellow, red as _red
 from global_conf import *
 
-@task()
+@task(default=True)
 def list_buckets():
     '''List All Buckets'''
 

@@ -9,10 +9,10 @@ from conf.parse_config import parse_ini
 recipe = None
 
 
-@task()
-def get_lb():
+@task(default=True)
+def list():
     """
-    get/list load balancer's
+    list load balancers
     """
     start_time = time.time()
     print(_green("Listing load balancers..."))

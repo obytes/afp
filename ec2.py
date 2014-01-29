@@ -12,7 +12,7 @@ recipe = None
 @task()
 def create(instance_type):
     """
-    This does the real work for the ulous() task. Is here to provide backwards compatibility
+    This creates a new instance in amazon cloud
     """
     start_time = time.time()
 
