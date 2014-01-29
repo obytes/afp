@@ -8,6 +8,7 @@ import time
 
 recipe = None
 
+
 @task()
 def create_instance(instance_type):
     """
@@ -31,27 +32,31 @@ def create_instance(instance_type):
 
     # import _crate_server and execute
     from misc import _create_server
+
     env.host_string, instance_id = _create_server()
 
     print(_green("Waiting 60 seconds for server to boot..."))
     time.sleep(60)
     try:
-        exec("from recipes.default_%s import create_recipe_%s as recipe" %
-             (instance_type, env.environment.lower()), globals())
+        exec ("from recipes.default_%s import create_recipe_%s as recipe" %
+              (instance_type, env.environment.lower()), globals())
     except Exception as e:
         print(_red('You are using incorrect instance conf name: {}'.format(str(e))))
         exit()
 
     # import _over and execute
     from misc import _oven
+
     _oven(recipe)
     if 'LB_NAME' in fabconf:
         from lb import register_instance_in_lb
+
         register_instance_in_lb(fabconf['LB_NAME'], instance_id)
 
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
     print(_green(env.host_string))
+
 
 @task()
 def get_instance():
@@ -71,6 +76,7 @@ def get_instance():
     print(_yellow(x))
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
+
 
 @task()
 def destroy_instance(*args):

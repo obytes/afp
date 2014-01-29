@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from instance import *
-from ec2 import *
-from lb import *
-from s3 import *
-from rds import *
+import ec2
+import lb
+import s3
+import rds
 from recipes.settings import *
