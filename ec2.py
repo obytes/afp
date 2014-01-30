@@ -99,9 +99,10 @@ def deploy(instance_type):
     """
     merge and deploy new changes from production
     """
-    if 'environment' not in env:
-        print(_red('Error must run for an enviroment (e.g fab staging deploy)'))
-        exit()
+    require('environment', provided_by=('staging', 'production'))
+    # if 'environment' not in env:
+    #     print(_red('Error must run for an enviroment (e.g fab staging deploy)'))
+    #     exit()
     try:
         fabconf, env_config = parse_ini(instance_type)
     except Exception as e:
@@ -131,6 +132,3 @@ def deploy(instance_type):
     _virtualenv('%(PROJECT_NAME)s/./manage.py collectstatic --noinput')
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
-
-# if __name__.endswith('ec2'):
-#     execute(get_instance, )
