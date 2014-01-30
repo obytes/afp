@@ -100,9 +100,7 @@ def deploy(instance_type):
     merge and deploy new changes from production
     """
     require('environment', provided_by=('staging', 'production'))
-    # if 'environment' not in env:
-    #     print(_red('Error must run for an enviroment (e.g fab staging deploy)'))
-    #     exit()
+
     try:
         fabconf, env_config = parse_ini(instance_type)
     except Exception as e:
