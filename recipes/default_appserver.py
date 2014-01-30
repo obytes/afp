@@ -4,6 +4,7 @@
 # 
 # Ingredients: nginx, memecached, gunicorn, supervisord, virtualenv, git
 
+
 create_recipe_production = [
     # First command as regular user
         {"action": "run", "params": "whoami"},
@@ -18,7 +19,7 @@ create_recipe_production = [
     # List of APT packages to install
         {"action": "apt",
          "params": ["nginx", "memcached", "git", "python-pip", "python-virtualenv", "postgresql-client",
-                    "python-setuptools", "python-dev", "build-essential", "libpq-dev"],
+                    "python-setuptools", "python-dev", "build-essential", "libpq-dev", "rabbitmq-server"],
          "message": "Installing apt-get packages"},
 
     # List of pypi packages to install
@@ -105,8 +106,23 @@ create_recipe_production = [
         {"action": "sudo", "params": "update-rc.d supervisord defaults"},
         {"action": "sudo", "params": "sudo /etc/init.d/supervisord start"},
         {"action": "sudo", "params": "sudo supervisorctl restart %(PROJECT_NAME)s"},
+    # Install and setup celery
+        {"action": "virtualenv", "params": "pip install celery django-celery",
+         "message": "Install celery requirements"},
+        {"action": "put_template", "params": {"template": "%(FABULOUS_PATH)s/recipes/templates/celeryd.conf",
+                                              "destination": "/home/%(SERVER_USERNAME)s/celeryd.conf"}},
+        {"action": "sudo", "params": "cat /home/%(SERVER_USERNAME)s/celeryd.conf >> /etc/supervisord.conf"},
+
+        {"action": "put_template", "params": {"template": "%(FABULOUS_PATH)s/recipes/templates/celerybeat.conf",
+                                              "destination": "/home/%(SERVER_USERNAME)s/celerybeat.conf"}},
+        {"action": "sudo", "params": "cat /home/%(SERVER_USERNAME)s/celerybeat.conf >> /etc/supervisord.conf"},
+        {"action": "sudo", "params": "sudo supervisorctl update"},
+        {"action": "sudo", "params": "sudo supervisorctl restart celery"},
+        {"action": "sudo", "params": "sudo supervisorctl restart celerybeat"},
 
         {"action": "sudo", "params": "sudo reboot", "message": "Rebooting server"},
+
+
     ]
 
 deploy_recipe_production = [
@@ -125,6 +141,12 @@ deploy_recipe_production = [
 
         {"action": "virtualenv", "params": "pip install -r %(PROJECT_NAME)s/requirements.txt",
          "message": "Install project requirements"},
+
+        {"action": "sudo", "params": "sudo supervisorctl restart celery",
+         "message": "Restarting celery"},
+
+        {"action": "sudo", "params": "sudo supervisorctl restart celerybeat",
+         "message": "Restarting celerybeat"},
 
         {"action": "sudo", "params": "sudo supervisorctl restart %(PROJECT_NAME)s",
          "message": "Restart supvervisord instance"},
@@ -232,6 +254,19 @@ create_recipe_staging = [
         {"action": "sudo", "params": "update-rc.d supervisord defaults"},
         {"action": "sudo", "params": "sudo /etc/init.d/supervisord start"},
         {"action": "sudo", "params": "sudo supervisorctl restart %(PROJECT_NAME)s"},
+    # Install and setup celery
+        {"action": "virtualenv", "params": "pip install celery django-celery",
+         "message": "Install celery requirements"},
+        {"action": "put_template", "params": {"template": "%(FABULOUS_PATH)s/recipes/templates/celeryd.conf",
+                                              "destination": "/home/%(SERVER_USERNAME)s/celeryd.conf"}},
+        {"action": "sudo", "params": "cat /home/%(SERVER_USERNAME)s/celeryd.conf >> /etc/supervisord.conf"},
+
+        {"action": "put_template", "params": {"template": "%(FABULOUS_PATH)s/recipes/templates/celerybeat.conf",
+                                              "destination": "/home/%(SERVER_USERNAME)s/celerybeat.conf"}},
+        {"action": "sudo", "params": "cat /home/%(SERVER_USERNAME)s/celerybeat.conf >> /etc/supervisord.conf"},
+        {"action": "sudo", "params": "sudo supervisorctl update"},
+        {"action": "sudo", "params": "sudo supervisorctl restart celery"},
+        {"action": "sudo", "params": "sudo supervisorctl restart celerybeat"},
 
         {"action": "sudo", "params": "sudo reboot", "message": "Rebooting server"},
     ]
@@ -252,6 +287,12 @@ deploy_recipe_staging = [
 
         {"action": "virtualenv", "params": "pip install -r %(PROJECT_NAME)s/requirements.txt",
          "message": "Install project requirements"},
+
+        {"action": "sudo", "params": "sudo supervisorctl restart celery",
+         "message": "Restarting celery"},
+
+        {"action": "sudo", "params": "sudo supervisorctl restart celerybeat",
+         "message": "Restarting celerybeat"},
 
         {"action": "sudo", "params": "sudo supervisorctl restart %(PROJECT_NAME)s",
          "message": "Restart supvervisord instance"},
