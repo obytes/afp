@@ -15,10 +15,7 @@ def restart(service_name):
     start_time = time.time()
 
     print(_green("Started..."))
-    env.environment = None
-    while env.environment not in ('Staging', 'Production'):
-        environment = prompt('Please specify target environment: ')
-        setattr(env, 'environment', environment.strip().capitalize())
+    require('environment', provided_by=('staging', 'production'))
 
     try:
         fabconf, env_config = parse_ini('appserver', check_all=False)
