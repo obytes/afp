@@ -5,11 +5,9 @@ AFP is a fabric package to install, deploy and manage django applications on ama
 
 Instalation
 -----
-Clone the repository :
+Clone the repository, Rename afp folder to fabfile the repository and Install project requirements :
     1-git clone git@github.com:mo-mughrabi/afp.git
-Rename afp folder to fabfile the repository :
     2-mv afp fabfile
-Install project requirements
     3-pip install -r requirements
 
 Configuration
