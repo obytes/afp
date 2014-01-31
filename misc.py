@@ -228,7 +228,8 @@ def _deploy(recipe):
         tags = instance.tags
         if instance.state == 'running' and 'Env' in tags:
             if tags['Env'] == env.environment:
-                print(_yellow('Deploying changes to instance: %s' % instance.id))
+                print(_yellow('Deploying changes to instance: %s' %
+                      instance.id))
                 env.host_string = instance.public_dns_name
                 env.user = fabconf['SERVER_USERNAME']
                 env.key_filename = fabconf['SSH_PRIVATE_KEY_PATH']

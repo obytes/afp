@@ -7,6 +7,7 @@ from fabric.api import *
 from fabric.colors import green as _green, yellow as _yellow, red as _red
 from global_conf import *
 
+
 @task(default=True)
 def list_buckets():
     '''List All Buckets'''
@@ -24,6 +25,7 @@ def list_buckets():
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
 
+
 @task()
 def get_bucket(bucket_name):
     '''Get bucket details'''
@@ -32,13 +34,14 @@ def get_bucket(bucket_name):
     conn = S3Connection(ec2_key, ec2_secret)
 
     try:
-        bucket = conn.get_bucket(bucket_name = bucket_name)
+        bucket = conn.get_bucket(bucket_name=bucket_name)
     except Exception, e:
         print(_red('Bucket error: {}'.format(str(e))))
 
     print bucket
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
+
 
 @task()
 def create_bucket(bucket_name):
@@ -49,13 +52,14 @@ def create_bucket(bucket_name):
     print(_green("Creating bucket..."))
 
     try:
-        bucket = conn.create_bucket(bucket_name = bucket_name)
-        print _green('Bucket "%s" successfully created'%bucket_name)
+        bucket = conn.create_bucket(bucket_name=bucket_name)
+        print _green('Bucket "%s" successfully created' % bucket_name)
     except Exception, e:
         print(_red('Create bucket error: {}'.format(str(e))))
 
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
+
 
 @task()
 def delete_bucket(bucket_name):
@@ -67,16 +71,12 @@ def delete_bucket(bucket_name):
     delete = prompt('Are you sure you want to delete this bucket (Y/N): ')
     if delete.upper() == 'Y':
         try:
-            bucket = conn.get_bucket(bucket_name = bucket_name)
+            bucket = conn.get_bucket(bucket_name=bucket_name)
             print(_green("Deleting bucket..."))
             conn.delete_bucket(bucket)
-            print _yellow('Bucket "%s" successfully deleted'%bucket_name)
+            print _yellow('Bucket "%s" successfully deleted' % bucket_name)
         except Exception, e:
             print(_red('Delete bucket error: {}'.format(str(e))))
 
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
-
-
-
-

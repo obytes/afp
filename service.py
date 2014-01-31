@@ -26,7 +26,7 @@ def restart(service_name):
     env.key_filename = fabconf['SSH_PRIVATE_KEY_PATH']
 
     from recipes.default_appserver import restart_services as recipe
-    command = recipe['%s'%service_name]
+    command = recipe['%s' % service_name]
     from misc import _oven
 
     conn = boto.connect_ec2(ec2_key, ec2_secret)
@@ -36,7 +36,8 @@ def restart(service_name):
         tags = instance.tags
         if instance.state == 'running' and 'Env' in tags:
             if tags['Env'] == env.environment:
-                print(_yellow('Restarting service on instance: %s' % instance.id))
+                print(_yellow('Restarting service on instance: %s' %
+                      instance.id))
                 env.host_string = instance.public_dns_name
                 env.user = fabconf['SERVER_USERNAME']
                 env.key_filename = fabconf['SSH_PRIVATE_KEY_PATH']
@@ -45,6 +46,7 @@ def restart(service_name):
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
     print(_green(env.host_string))
+
 
 @task()
 def log(service_name):
@@ -68,7 +70,7 @@ def log(service_name):
     env.key_filename = fabconf['SSH_PRIVATE_KEY_PATH']
 
     from recipes.default_appserver import log_services as recipe
-    command = recipe['%s'%service_name]
+    command = recipe['%s' % service_name]
     from misc import _oven
 
     conn = boto.connect_ec2(ec2_key, ec2_secret)
@@ -78,7 +80,8 @@ def log(service_name):
         tags = instance.tags
         if instance.state == 'running' and 'Env' in tags:
             if tags['Env'] == env.environment:
-                print(_yellow('Restarting service on instance: %s' % instance.id))
+                print(_yellow('Restarting service on instance: %s' %
+                      instance.id))
                 env.host_string = instance.public_dns_name
                 env.user = fabconf['SERVER_USERNAME']
                 env.key_filename = fabconf['SSH_PRIVATE_KEY_PATH']

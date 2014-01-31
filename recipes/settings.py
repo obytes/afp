@@ -2,6 +2,7 @@
 from fabric.api import env, task
 __all__ = ['settings']
 
+
 @task()
 def staging():
     """ Set staging environment """

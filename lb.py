@@ -25,6 +25,7 @@ def list():
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
 
+
 @task()
 def register_instance_in_lb(lb_name, *args):
     """
@@ -39,6 +40,7 @@ def register_instance_in_lb(lb_name, *args):
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
 
+
 @task()
 def deregister_instance_from_lb(lb_name, *args):
     """
@@ -52,4 +54,3 @@ def deregister_instance_from_lb(lb_name, *args):
         print(_green('Instance(s) de-registered from load balancer'))
     end_time = time.time()
     print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
-
