@@ -14,7 +14,7 @@ BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), os.path.pard
 def _base(f=''):
     return os.path.join(BASE_DIR, f)
 
-def parse_ini(instance_type):
+def parse_ini(instance_type, check_all=True):
     parser = SafeConfigParser()
     parser.read(os.path.abspath('fabfile/conf/%s.ini'%instance_type))
 
@@ -64,6 +64,7 @@ def parse_ini(instance_type):
         print(_red("SSH private key does not exist in the provided path %s !"%fabconf['SSH_PRIVATE_KEY_PATH']))
         exit()
 
+
     print(_yellow("AWS Secret Access and Key verification..."))
     try :
         regions = boto.connect_ec2(ec2_key, ec2_secret).get_all_regions()
@@ -71,37 +72,37 @@ def parse_ini(instance_type):
     except Exception, e:
         print(_red("Please Check your AWS Secret Access Key !"))
         exit()
+    if check_all:
+        print(_yellow("MEDIA and STATIC buckets verification..."))
+        conn = boto.s3.connection.S3Connection(ec2_key, ec2_secret)
+        buckets = [bucket.name for bucket in conn.get_all_buckets()]
 
-    print(_yellow("MEDIA and STATIC buckets verification..."))
-    conn = boto.s3.connection.S3Connection(ec2_key, ec2_secret)
-    buckets = [bucket.name for bucket in conn.get_all_buckets()]
+        assert env_config['S3_STATIC_BUCKET_STORAGE'] in buckets
+        print(_green("S3 STATIC BUCKET STORAGE %s OK")%env_config['S3_STATIC_BUCKET_STORAGE'])
 
-    assert env_config['S3_STATIC_BUCKET_STORAGE'] in buckets
-    print(_green("S3 STATIC BUCKET STORAGE %s OK")%env_config['S3_STATIC_BUCKET_STORAGE'])
+        assert env_config['S3_MEDIA_BUCKET_STORAGE'] in buckets
+        print(_green("S3 MEDIA BUCKET STORAGE %s OK")%env_config['S3_MEDIA_BUCKET_STORAGE'])
 
-    assert env_config['S3_MEDIA_BUCKET_STORAGE'] in buckets
-    print(_green("S3 MEDIA BUCKET STORAGE %s OK")%env_config['S3_MEDIA_BUCKET_STORAGE'])
+        print(_yellow("Load balancers verification..."))
+        conn = boto.ec2.elb.ELBConnection(ec2_key, ec2_secret)
+        lbs = conn.get_all_load_balancers()
+        lb_names = [lb.name for lb in lbs]
+        assert fabconf['LB_NAME'] in lb_names
+        print(_green("Load balancer name %s OK")%fabconf['LB_NAME'])
+        lb_dns_names = [lb.dns_name for lb in lbs]
+        assert fabconf['LB_URL'] in lb_dns_names
+        print(_green("Load balancer dns name %s OK")%fabconf['LB_URL'])
 
-    print(_yellow("Load balancers verification..."))
-    conn = boto.ec2.elb.ELBConnection(ec2_key, ec2_secret)
-    lbs = conn.get_all_load_balancers()
-    lb_names = [lb.name for lb in lbs]
-    assert fabconf['LB_NAME'] in lb_names
-    print(_green("Load balancer name %s OK")%fabconf['LB_NAME'])
-    lb_dns_names = [lb.dns_name for lb in lbs]
-    assert fabconf['LB_URL'] in lb_dns_names
-    print(_green("Load balancer dns name %s OK")%fabconf['LB_URL'])
+        print(_yellow("Security group verification..."))
 
-    print(_yellow("Security group verification..."))
-
-    try :
-        groups = boto.connect_ec2(ec2_key, ec2_secret).get_all_security_groups(groupnames=env.ec2_secgroups)
-        ports = [r.to_port for r in groups[0].rules]
-        assert '22' and '80' in ports
-        print(_green("The security group '%s' exists and has open ports to 22 and 80")%fabconf['EC2_SECGROUPS'])
-    except Exception, e:
-        print(_red("The security group '%s' does not exist in default VPC"%fabconf['EC2_SECGROUPS']))
-        exit()
+        try :
+            groups = boto.connect_ec2(ec2_key, ec2_secret).get_all_security_groups(groupnames=env.ec2_secgroups)
+            ports = [r.to_port for r in groups[0].rules]
+            assert '22' and '80' in ports
+            print(_green("The security group '%s' exists and has open ports to 22 and 80")%fabconf['EC2_SECGROUPS'])
+        except Exception, e:
+            print(_red("The security group '%s' does not exist in default VPC"%fabconf['EC2_SECGROUPS']))
+            exit()
 
     return fabconf, env_config
 

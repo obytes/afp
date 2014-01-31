@@ -298,3 +298,25 @@ deploy_recipe_staging = [
          "message": "Restart supvervisord instance"},
 
     ]
+
+restart_services = \
+    {"nginx": [{"action": "sudo", "params": "sudo service nginx restart",
+               "message": "Restarting nginx"}],
+     "gunicorn": [{"action": "sudo", "params": "sudo supervisorctl restart %(PROJECT_NAME)s",
+               "message": "Restarting gunicorn"}],
+     "celery": [{"action": "sudo", "params": "sudo supervisorctl restart celery",
+                  "message": "Restarting celery"},
+                {"action": "sudo", "params": "sudo supervisorctl restart celerybeat",
+                                                     "message": "Restarting celerybeat"}]
+     }
+
+log_services = \
+    {"nginx": [{"action": "sudo", "params": "sudo tail /tmp/nginx.access.log",
+                "message": "Nginx logs"}],
+     "gunicorn": [{"action": "sudo", "params": "sudo tail /tmp/%(PROJECT_NAME)s.log",
+                   "message": "Gunicorn logs"}],
+     "celery": [{"action": "sudo", "params": "sudo tail /var/log/celeryd.log",
+                   "message": "Celery logs"}],
+     "celerybeat": [{"action": "sudo", "params": "sudo tail /var/log/celerybeat.log",
+                 "message": "Celerybeat logs"}]
+}
