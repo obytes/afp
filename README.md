@@ -5,20 +5,21 @@ AFP is a fabric package to install, deploy and manage django applications on ama
 
 Instalation
 -----
-Clone the repository, Rename afp folder to fabfile the repository and Install project requirements :
+Clone the repository, Rename afp folder to fabfile and Install project requirements :
 
     1-git clone git@github.com:mo-mughrabi/afp.git
     2-mv afp fabfile
-    3-pip install -r requirements
+    3-pip install -r requirements.txt
 
 Configuration
 -----
     1-Put your AWS Secret Access and Key in global_conf.py
-    2-Edit conf/appserver.ini with your credentials
-    3-Put your amazon ssh private key, github private and public keys inside settings/ssh folder
+    2-Put your amazon ssh private key, github private and public keys inside settings/ssh folder
+    3-Edit conf/appserver.ini with your credentials
 Note that your remote git repository must contain 3 branches, development, staging and production
 
 Available commands
+type fab --list to show available fabric commands
 -----
     production                      Set production environment
     staging                         Set staging environment
