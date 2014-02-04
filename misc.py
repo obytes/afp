@@ -227,7 +227,7 @@ def _deploy(recipe):
     for instance in instances:
         tags = instance.tags
         if instance.state == 'running' and 'Env' in tags:
-            if tags['Env'] == env.environment:
+            if tags['Env'] == env.environment and tags['Name'] == 'AppServer':
                 print(_yellow('Deploying changes to instance: %s' %
                       instance.id))
                 env.host_string = instance.public_dns_name

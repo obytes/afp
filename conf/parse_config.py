@@ -18,7 +18,7 @@ def _base(f=''):
 
 def parse_ini(instance_type, check_all=True):
     parser = SafeConfigParser()
-    parser.read(os.path.abspath('fabfile/conf/%s.ini' % instance_type))
+    parser.read(os.path.abspath('fabfile/conf/conf.ini'))
 
     parser.set('CONFIG', 'FABULOUS_PATH',
                os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -32,7 +32,7 @@ def parse_ini(instance_type, check_all=True):
 
     fabconf = {}
 
-    _green("Parsing config.ini file")
+    _green("Parsing conf.ini file")
 
     for name, value in parser.items('CONFIG'):
         # print '  %s = %s' % (name, value)
@@ -41,6 +41,10 @@ def parse_ini(instance_type, check_all=True):
     for name, value in parser.items('%s' % env.environment.upper()):
         # print '  %s = %s' % (name, value)
         fabconf['%s' % name.upper()] = value
+
+    if instance_type == 'messagingserver':
+        fabconf['INSTANCE_NAME_TAG'] = "MessagingServer"
+        fabconf['INSTANCE_RECIPE'] = "messagingserver"
 
     env_config = {}
 

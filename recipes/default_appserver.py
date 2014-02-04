@@ -20,7 +20,7 @@ create_recipe_production = [
     # List of APT packages to install
     {"action": "apt",
      "params": ["nginx", "memcached", "git", "python-pip", "python-virtualenv", "postgresql-client",
-                "python-setuptools", "python-dev", "build-essential", "libpq-dev", "rabbitmq-server"],
+                "python-setuptools", "python-dev", "build-essential", "libpq-dev"],
      "message": "Installing apt-get packages"},
 
     # List of pypi packages to install

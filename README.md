@@ -15,7 +15,7 @@ Configuration
 -----
     1-Put your AWS Secret Access and Key in global_conf.py
     2-Put your amazon ssh private key, github private and public keys inside settings/ssh folder
-    3-Edit conf/appserver.ini with your credentials
+    3-Edit conf/conf.ini with your credentials
 Note that your remote git repository must contain 3 branches, development, staging and production
 
 Available commands
