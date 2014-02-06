@@ -23,7 +23,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="AFP 1.0.0 documentation" href="#" /> 
+    <link rel="top" title="AFP 1.0.0 documentation" href="#" />
+    <link rel="next" title="EC2 command interface" href="ec2.html" /> 
   </head>
   <body>
     <div class="related">
@@ -32,6 +33,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ec2.html" title="EC2 command interface"
+             accesskey="N">next</a> |</li>
         <li><a href="#">AFP 1.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -44,6 +48,15 @@
   <div class="section" id="amazon-fabric-package">
 <h1>Amazon Fabric Package<a class="headerlink" href="#amazon-fabric-package" title="Permalink to this headline">¶</a></h1>
 <p>AFP is a fabric package to install, deploy and manage django applications on amazon cloud</p>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="ec2.html"><em>EC2</em></a></li>
+<li><a class="reference internal" href="lb.html"><em>Load balancer</em></a></li>
+<li><a class="reference internal" href="s3.html"><em>S3 Storage</em></a></li>
+<li><a class="reference internal" href="service.html"><em>Service</em></a></li>
+</ul>
+</div>
 <div class="section" id="instalation">
 <h2>Instalation<a class="headerlink" href="#instalation" title="Permalink to this headline">¶</a></h2>
 <p>Clone the repository, Rename afp folder to fabfile and Install project requirements :</p>
@@ -68,26 +81,29 @@
 </div>
 <div class="section" id="help-listing-type-fab-list-to-show-available-fabric-commands">
 <h2>Help listing: type fab &#8211;list to show available fabric commands<a class="headerlink" href="#help-listing-type-fab-list-to-show-available-fabric-commands" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div>production                      Set production environment
-staging                         Set staging environment
-ec2                             list all instances running on amazon cloud
-ec2.create                      This creates a new instance in amazon cloud
-ec2.deploy                      merge and deploy new changes from production
-ec2.destroy                     distory an instance running on cloud
-ec2.get_instance                list all instances running on amazon cloud
-lb                              list load balancers
-lb.deregister_instance_from_lb  delete instance from load balancer
-lb.list                         list load balancers
-lb.register_instance_in_lb      set load balancer, assigns an instance to a given load balancer
-rds                             List All Relational Data Service
-s3                              List All Buckets
-s3.create_bucket                Create a bucket
-s3.delete_bucket                Delete a bucket
-s3.get_bucket                   Get bucket details
-s3.list_buckets                 List All Buckets
-service.log                     Show logs of nginx/celery/celerybeat/gunicorn
-service.restart                 This restarts services on instance (nginx/gunicorn/celery)</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="o">--</span><span class="nb">list</span>
+<span class="go">    production                      Set production environment</span>
+<span class="go">    staging                         Set staging environment</span>
+<span class="go">    ec2                             list all instances running on amazon cloud</span>
+<span class="go">    ec2.create                      This creates a new instance in amazon cloud</span>
+<span class="go">    ec2.deploy                      merge and deploy new changes from production</span>
+<span class="go">    ec2.destroy                     distory an instance running on cloud</span>
+<span class="go">    ec2.get_instance                list all instances running on amazon cloud</span>
+<span class="go">    lb                              list load balancers</span>
+<span class="go">    lb.deregister_instance_from_lb  delete instance from load balancer</span>
+<span class="go">    lb.list                         list load balancers</span>
+<span class="go">    lb.register_instance_in_lb      set load balancer, assigns an instance to a given load balancer</span>
+<span class="go">    rds                             List All Relational Data Service</span>
+<span class="go">    s3                              List All Buckets</span>
+<span class="go">    s3.create_bucket                Create a bucket</span>
+<span class="go">    s3.delete_bucket                Delete a bucket</span>
+<span class="go">    s3.get_bucket                   Get bucket details</span>
+<span class="go">    s3.list_buckets                 List All Buckets</span>
+<span class="go">    service.log                     Show logs of nginx/celery/celerybeat/gunicorn</span>
+<span class="go">    service.restart                 This restarts services on instance (nginx/gunicorn/celery)</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="contributors">
 <h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
@@ -98,18 +114,14 @@ service.restart                 This restarts services on instance (nginx/gunico
 </ul>
 </div></blockquote>
 <div class="toctree-wrapper compound">
-<ul class="simple">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ec2.html">EC2 command interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lb.html">LB command interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3 command interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">Service command interface</a></li>
 </ul>
 </div>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
-</ul>
 </div>
 
 
@@ -121,15 +133,18 @@ service.restart                 This restarts services on instance (nginx/gunico
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Amazon Fabric Package</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 <li><a class="reference internal" href="#instalation">Instalation</a></li>
 <li><a class="reference internal" href="#configuration">Configuration</a></li>
 <li><a class="reference internal" href="#help-listing-type-fab-list-to-show-available-fabric-commands">Help listing: type fab &#8211;list to show available fabric commands</a></li>
 <li><a class="reference internal" href="#contributors">Contributors</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ec2.html"
+                        title="next chapter">EC2 command interface</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -158,6 +173,9 @@ service.restart                 This restarts services on instance (nginx/gunico
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="ec2.html" title="EC2 command interface"
+             >next</a> |</li>
         <li><a href="#">AFP 1.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
