@@ -24,7 +24,6 @@ create_recipe_production = [
 
     {"action": "sudo", "params": "sudo reboot",
      "message": "Rebooting server"},
-
 ]
 
 create_recipe_staging = [
@@ -46,6 +45,4 @@ create_recipe_staging = [
 
         {"action": "sudo", "params": "sudo reboot",
          "message": "Rebooting server"},
-
-
     ]
