@@ -166,6 +166,12 @@ deploy_recipe_production = [
      "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git merge %(GITBUH_STAGING_BRANCH)s"},
 
     {"action": "run", "params":
+    "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git tag -a %(TAG)s -m '%(TAG_MESSAGE)s'"},
+
+    {"action": "run", "params":
+        "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git push origin %(TAG)s"},
+
+    {"action": "run", "params":
      "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git push"},
 
     {"action": "virtualenv", "params": "pip install -r %(PROJECT_NAME)s/requirements.txt",
@@ -329,16 +335,16 @@ deploy_recipe_staging = [
     {"action": "run", "params": "whoami"},
 
     {"action": "run", "params":
-     "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git checkout %(GITBUH_STAGING_BRANCH)s"},
+     "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git checkout %(GITBUH_DEV_BRANCH)s"},
 
     {"action": "run", "params":
      "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git pull"},
 
     {"action": "run", "params":
-     "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git checkout %(GITHUB_BRANCH)s"},
+     "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git checkout %(GITBUH_STAGING_BRANCH)s"},
 
     {"action": "run", "params":
-     "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git merge %(GITBUH_STAGING_BRANCH)s"},
+     "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git merge %(GITBUH_DEV_BRANCH)s"},
 
     {"action": "run", "params":
      "cd %(APPS_DIR)s/%(PROJECT_NAME)s; git push"},

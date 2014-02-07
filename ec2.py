@@ -107,6 +107,13 @@ def deploy(instance_type):
         print(_red('Exception parsing config file: {}'.format(str(e))))
         exit()
 
+    if env.environment == "Production":
+        tag = ""
+        while not tag:
+            tag = prompt('Please specify the release of the code: ')
+        tag_message = prompt('Please specify the release description message: ')
+        env.fabconf['TAG'] = tag
+        env.fabconf['TAG_MESSAGE'] = tag_message
     try:
         exec("from recipes.default_%s import deploy_recipe_%s as recipe" %
              (instance_type, env.environment.lower()), globals())
