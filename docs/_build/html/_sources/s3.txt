@@ -1,5 +1,34 @@
 S3 command interface
 ===============================
 
-AFP is a fabric package to install, deploy and manage django applications on amazon cloud
+The S3 command interface contains fabric commands list, create or delete buckets on amazon s3 cloud.
 
+List buckets : fab s3 or fab ec2.list_buckets
+*****************************************************
+    >>> fab s3
+    Listing active buckets...
+    +-----------------------------------------+-------------------------------+
+    |                   Name                  |           Connection          |
+    +-----------------------------------------+-------------------------------+
+    |         assets.example.com         | S3Connection:s3.amazonaws.com |
+    |          media.example.com         | S3Connection:s3.amazonaws.com |
+    +-----------------------------------------+-------------------------------+
+    Runtime: 0.028344 minutes
+    Done.
+
+Create bucket : fab s3.create_bucket:bucket_name
+*****************************************************
+    >>> fab s3.create_bucket:my_afp_test_bucket
+    Creating bucket...
+    Bucket "my_afp_test_bucket" successfully created
+    Runtime: 0.029283 minutes
+    Done.
+
+Delete bucket : fab s3.delete_bucket:bucket_name
+*****************************************************
+    >>> fab s3.delete_bucket:my_afp_test_bucket
+    Are you sure you want to delete this bucket (Y/N): y
+    Deleting bucket...
+    Bucket "my_afp_test_bucket" successfully deleted
+    Runtime: 0.115201 minutes
+    Done.

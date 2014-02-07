@@ -47,7 +47,50 @@
             
   <div class="section" id="service-command-interface">
 <h1>Service command interface<a class="headerlink" href="#service-command-interface" title="Permalink to this headline">¶</a></h1>
-<p>AFP is a fabric package to install, deploy and manage django applications on amazon cloud</p>
+<p>The service command interface contains 2 fabric commands to restart and show logs of Nginx, Gunicorn or Celery</p>
+<div class="section" id="restart-a-service-fab-service-restart-service-name">
+<h2>Restart a service : fab service.restart:service_name<a class="headerlink" href="#restart-a-service-fab-service-restart-service-name" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>service_name param can take following values:</dt>
+<dd><ol class="first last arabic simple">
+<li>nginx</li>
+<li>gunicorn</li>
+<li>celery</li>
+</ol>
+</dd>
+</dl>
+</div>
+<div class="section" id="show-logs-fab-service-log-service-name">
+<h2>Show logs : fab service.log:service_name<a class="headerlink" href="#show-logs-fab-service-log-service-name" title="Permalink to this headline">¶</a></h2>
+<p>service_name takes the same values as restart command.
+Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">service</span><span class="o">.</span><span class="n">log</span><span class="p">:</span><span class="n">nginx</span>
+<span class="go">Started...</span>
+<span class="go">Please specify target environment: production</span>
+<span class="go">SSH private key verification...</span>
+<span class="go">AWS Secret Access and Key verification...</span>
+<span class="go">EC2 Key and Secret OK</span>
+<span class="go">Restarting service on instance: i-295b735</span>
+<span class="go">Nginx logs</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] sudo: sudo tail /tmp/nginx.access.log</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:08:34 +0000] &quot;GET /aws/ping.html HTTP/1.1&quot; 200 0 &quot;-&quot; &quot;ELB-HealthChecker/1.0&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:09:03 +0000] &quot;-&quot; 400 0 &quot;-&quot; &quot;-&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:09:04 +0000] &quot;GET /aws/ping.html HTTP/1.1&quot; 200 0 &quot;-&quot; &quot;ELB-HealthChecker/1.0&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:09:33 +0000] &quot;-&quot; 400 0 &quot;-&quot; &quot;-&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:09:34 +0000] &quot;GET /aws/ping.html HTTP/1.1&quot; 200 0 &quot;-&quot; &quot;ELB-HealthChecker/1.0&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:09:44 +0000] &quot;HEAD / HTTP/1.1&quot; 200 0 &quot;-&quot; &quot;-&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:10:04 +0000] &quot;-&quot; 400 0 &quot;-&quot; &quot;-&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:10:04 +0000] &quot;GET /aws/ping.html HTTP/1.1&quot; 200 0 &quot;-&quot; &quot;ELB-HealthChecker/1.0&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:10:33 +0000] &quot;-&quot; 400 0 &quot;-&quot; &quot;-&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out: 172.31.36.35 - - [07/Feb/2014:22:10:34 +0000] &quot;GET /aws/ping.html HTTP/1.1&quot; 200 0 &quot;-&quot; &quot;ELB-HealthChecker/1.0&quot;</span>
+<span class="go">[ec2-54-84-2-20.compute-1.amazonaws.com] out:</span>
+<span class="go">Runtime: 0.209646 minutes</span>
+<span class="go">ec2-54-84-2-20.compute-1.amazonaws.com</span>
+<span class="go">Done.</span>
+<span class="go">Disconnecting from ec2-54-84-2-20.compute-1.amazonaws.com... done.</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -56,6 +99,15 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Service command interface</a><ul>
+<li><a class="reference internal" href="#restart-a-service-fab-service-restart-service-name">Restart a service : fab service.restart:service_name</a></li>
+<li><a class="reference internal" href="#show-logs-fab-service-log-service-name">Show logs : fab service.log:service_name</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="s3.html"
                         title="previous chapter">S3 command interface</a></p>

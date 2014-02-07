@@ -51,7 +51,80 @@
             
   <div class="section" id="ec2-command-interface">
 <h1>EC2 command interface<a class="headerlink" href="#ec2-command-interface" title="Permalink to this headline">¶</a></h1>
-<p>AFP is a fabric package to install, deploy and manage django applications on amazon cloud</p>
+<p>The EC2 command interface contains very useful fabric commands that list, create or destroy instance on amazon cloud.</p>
+<div class="section" id="list-instances-fab-ec2-or-fab-ec2-get-instance">
+<h2>List instances : fab ec2 or fab ec2.get_instance<a class="headerlink" href="#list-instances-fab-ec2-or-fab-ec2-get-instance" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">ec2</span>
+<span class="go">Listing active instances...</span>
+<span class="go">+---------------------+-----------------------------------------+---------+---------------------------------------------------------------+</span>
+<span class="go">|     Instance ID     |                Public DNS               |  State  |                              Tags                             |</span>
+<span class="go">+---------------------+-----------------------------------------+---------+---------------------------------------------------------------+</span>
+<span class="go">| Instance:i-295b4567 | ec2-54-84-2-120.compute-1.amazonaws.com | running |       Recipe: appserver,Name: AppServer,Env: Production       |</span>
+<span class="go">| Instance:i-735f1234 | ec2-54-84-14-37.compute-1.amazonaws.com | running | Recipe: messagingserver,Name: MessagingServer,Env: Production |</span>
+<span class="go">+---------------------+-----------------------------------------+---------+---------------------------------------------------------------+</span>
+<span class="go">Runtime: 0.036777 minutes</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-appserver-instance-fab-ec2-create-appserver">
+<h2>Create appserver instance : fab ec2.create:appserver<a class="headerlink" href="#create-appserver-instance-fab-ec2-create-appserver" title="Permalink to this headline">¶</a></h2>
+<p>This fab command creates a full instance, it installs and configures nginx, supervisor, celery and gunicorn, all the requirements
+are also installed and the instance is ready for use in few minutes.
+The install progression is printed in the console during the process.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">ec2</span><span class="o">.</span><span class="n">create</span><span class="p">:</span><span class="n">appserver</span><span class="p">:</span><span class="n">staging</span>
+<span class="go">Started...</span>
+<span class="go">Please specify target environment: staging</span>
+<span class="go">SSH private key verification...</span>
+<span class="go">AWS Secret Access and Key verification...</span>
+<span class="go">EC2 Key and Secret OK</span>
+<span class="go">MEDIA and STATIC buckets verification...</span>
+<span class="go">S3 STATIC BUCKET STORAGE assets.diwaniyalabs.com OK</span>
+<span class="go">S3 MEDIA BUCKET STORAGE media.diwaniyalabs.com OK</span>
+<span class="go">Load balancers verification...</span>
+<span class="go">Load balancer name api-load-balancer-staging OK</span>
+<span class="go">Load balancer dns name api-load-balancer-staging-1793786200.us-east-1.elb.amazonaws.com OK</span>
+<span class="go">Security group verification...</span>
+<span class="go">The security group &#39;default&#39; exists and has open ports to 22 and 80</span>
+<span class="go">Creating instance</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Note that you can use the same command to create a messaging server for celery.</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">ec2</span><span class="o">.</span><span class="n">create</span><span class="p">:</span><span class="n">messagingserver</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="destroy-instance-fab-ec2-destroy-instance-id">
+<h2>Destroy instance : fab ec2.destroy:instance_id<a class="headerlink" href="#destroy-instance-fab-ec2-destroy-instance-id" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This command deletes the instance from amazon cloud, example :</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">ec2</span><span class="o">.</span><span class="n">destroy</span><span class="p">:</span><span class="n">i</span><span class="o">-</span><span class="mi">123</span><span class="n">f4567</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="deploy-changes-fab-production-ec2-deploy-appserver">
+<h2>Deploy changes : fab production ec2.deploy:appserver<a class="headerlink" href="#deploy-changes-fab-production-ec2-deploy-appserver" title="Permalink to this headline">¶</a></h2>
+<p>This command allows to deploy the changes to your staging/production WebApps.
+When deploying to staging, it merges development branch with staging, and when deploying to production it merges changes from
+staging with branch master.
+When deploying to production, the program asks for a release version.
+Deployment steps :</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Pull changes.</li>
+<li>Merge</li>
+<li>install requirements</li>
+<li>restart celery</li>
+<li>restart supervisor</li>
+<li>Migrate database</li>
+<li>Collect static</li>
+</ol>
+</div></blockquote>
+</div>
 </div>
 
 
@@ -60,6 +133,17 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EC2 command interface</a><ul>
+<li><a class="reference internal" href="#list-instances-fab-ec2-or-fab-ec2-get-instance">List instances : fab ec2 or fab ec2.get_instance</a></li>
+<li><a class="reference internal" href="#create-appserver-instance-fab-ec2-create-appserver">Create appserver instance : fab ec2.create:appserver</a></li>
+<li><a class="reference internal" href="#destroy-instance-fab-ec2-destroy-instance-id">Destroy instance : fab ec2.destroy:instance_id</a></li>
+<li><a class="reference internal" href="#deploy-changes-fab-production-ec2-deploy-appserver">Deploy changes : fab production ec2.deploy:appserver</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Amazon Fabric Package</a></p>

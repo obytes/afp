@@ -51,7 +51,43 @@
             
   <div class="section" id="s3-command-interface">
 <h1>S3 command interface<a class="headerlink" href="#s3-command-interface" title="Permalink to this headline">¶</a></h1>
-<p>AFP is a fabric package to install, deploy and manage django applications on amazon cloud</p>
+<p>The S3 command interface contains fabric commands list, create or delete buckets on amazon s3 cloud.</p>
+<div class="section" id="list-buckets-fab-s3-or-fab-ec2-list-buckets">
+<h2>List buckets : fab s3 or fab ec2.list_buckets<a class="headerlink" href="#list-buckets-fab-s3-or-fab-ec2-list-buckets" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">s3</span>
+<span class="go">Listing active buckets...</span>
+<span class="go">+-----------------------------------------+-------------------------------+</span>
+<span class="go">|                   Name                  |           Connection          |</span>
+<span class="go">+-----------------------------------------+-------------------------------+</span>
+<span class="go">|         assets.example.com         | S3Connection:s3.amazonaws.com |</span>
+<span class="go">|          media.example.com         | S3Connection:s3.amazonaws.com |</span>
+<span class="go">+-----------------------------------------+-------------------------------+</span>
+<span class="go">Runtime: 0.028344 minutes</span>
+<span class="go">Done.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-bucket-fab-s3-create-bucket-bucket-name">
+<h2>Create bucket : fab s3.create_bucket:bucket_name<a class="headerlink" href="#create-bucket-fab-s3-create-bucket-bucket-name" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">s3</span><span class="o">.</span><span class="n">create_bucket</span><span class="p">:</span><span class="n">my_afp_test_bucket</span>
+<span class="go">Creating bucket...</span>
+<span class="go">Bucket &quot;my_afp_test_bucket&quot; successfully created</span>
+<span class="go">Runtime: 0.029283 minutes</span>
+<span class="go">Done.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="delete-bucket-fab-s3-delete-bucket-bucket-name">
+<h2>Delete bucket : fab s3.delete_bucket:bucket_name<a class="headerlink" href="#delete-bucket-fab-s3-delete-bucket-bucket-name" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">s3</span><span class="o">.</span><span class="n">delete_bucket</span><span class="p">:</span><span class="n">my_afp_test_bucket</span>
+<span class="go">Are you sure you want to delete this bucket (Y/N): y</span>
+<span class="go">Deleting bucket...</span>
+<span class="go">Bucket &quot;my_afp_test_bucket&quot; successfully deleted</span>
+<span class="go">Runtime: 0.115201 minutes</span>
+<span class="go">Done.</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -60,6 +96,16 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">S3 command interface</a><ul>
+<li><a class="reference internal" href="#list-buckets-fab-s3-or-fab-ec2-list-buckets">List buckets : fab s3 or fab ec2.list_buckets</a></li>
+<li><a class="reference internal" href="#create-bucket-fab-s3-create-bucket-bucket-name">Create bucket : fab s3.create_bucket:bucket_name</a></li>
+<li><a class="reference internal" href="#delete-bucket-fab-s3-delete-bucket-bucket-name">Delete bucket : fab s3.delete_bucket:bucket_name</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="lb.html"
                         title="previous chapter">LB command interface</a></p>

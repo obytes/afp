@@ -51,7 +51,40 @@
             
   <div class="section" id="lb-command-interface">
 <h1>LB command interface<a class="headerlink" href="#lb-command-interface" title="Permalink to this headline">¶</a></h1>
-<p>AFP is a fabric package to install, deploy and manage django applications on amazon cloud</p>
+<p>LB command interface contains fab commands to manage Load Balancers.</p>
+<div class="section" id="list-load-balancers-fab-lb-or-fab-lb-list">
+<h2>List load balancers : fab lb or fab lb.list<a class="headerlink" href="#list-load-balancers-fab-lb-or-fab-lb-list" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This command lists your load balancers in a list with 3 columns: &#8220;Load balancer ID&#8221;, &#8220;Public DNS&#8221;, &#8220;Instances&#8221;</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">lb</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="register-instance-in-lb-fab-lb-register-instance-in-lb-lb-name-instance-id">
+<h2>Register instance in lb : fab lb.register_instance_in_lb: lb_name:instance_id<a class="headerlink" href="#register-instance-in-lb-fab-lb-register-instance-in-lb-lb-name-instance-id" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This command assigns an instance to a given load balancer, example:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">fab</span> <span class="n">lb</span><span class="o">.</span><span class="n">register_instance_in_lb</span><span class="p">:</span><span class="n">api</span><span class="o">-</span><span class="n">load</span><span class="o">-</span><span class="n">balancer</span><span class="o">-</span><span class="mf">154545642.</span><span class="n">us</span><span class="o">-</span><span class="n">east</span><span class="o">-</span><span class="mf">1.</span><span class="n">elb</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">i</span><span class="o">-</span><span class="mi">456</span><span class="n">f3445</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="delete-instance-from-lb-fab-lb-deregister-instance-in-lb-lb-name-instance-id">
+<h2>Delete instance from lb : fab lb.deregister_instance_in_lb: lb_name:instance_id<a class="headerlink" href="#delete-instance-from-lb-fab-lb-deregister-instance-in-lb-lb-name-instance-id" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This command deletes an instance from a given load balancer, example:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fab</span> <span class="n">fab</span> <span class="n">lb</span><span class="o">.</span><span class="n">deregister_instance_in_lb</span><span class="p">:</span><span class="n">api</span><span class="o">-</span><span class="n">load</span><span class="o">-</span><span class="n">balancer</span><span class="o">-</span><span class="mf">154545642.</span><span class="n">us</span><span class="o">-</span><span class="n">east</span><span class="o">-</span><span class="mf">1.</span><span class="n">elb</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">i</span><span class="o">-</span><span class="mi">456</span><span class="n">f3445</span>
+<span class="go">De-assigning instance from load balancer api-load-balancer-154545642.us-east-1.elb.amazonaws.com...</span>
+<span class="go">Instance(s) de-registered from load balancer</span>
+<span class="go">Runtime: 0.115201 minutes</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
 </div>
 
 
@@ -60,6 +93,16 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">LB command interface</a><ul>
+<li><a class="reference internal" href="#list-load-balancers-fab-lb-or-fab-lb-list">List load balancers : fab lb or fab lb.list</a></li>
+<li><a class="reference internal" href="#register-instance-in-lb-fab-lb-register-instance-in-lb-lb-name-instance-id">Register instance in lb : fab lb.register_instance_in_lb: lb_name:instance_id</a></li>
+<li><a class="reference internal" href="#delete-instance-from-lb-fab-lb-deregister-instance-in-lb-lb-name-instance-id">Delete instance from lb : fab lb.deregister_instance_in_lb: lb_name:instance_id</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="ec2.html"
                         title="previous chapter">EC2 command interface</a></p>

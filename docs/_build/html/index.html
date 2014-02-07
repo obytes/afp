@@ -115,10 +115,30 @@
 </div></blockquote>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ec2.html">EC2 command interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lb.html">LB command interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="s3.html">S3 command interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="service.html">Service command interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ec2.html">EC2 command interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#list-instances-fab-ec2-or-fab-ec2-get-instance">List instances : fab ec2 or fab ec2.get_instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#create-appserver-instance-fab-ec2-create-appserver">Create appserver instance : fab ec2.create:appserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#destroy-instance-fab-ec2-destroy-instance-id">Destroy instance : fab ec2.destroy:instance_id</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#deploy-changes-fab-production-ec2-deploy-appserver">Deploy changes : fab production ec2.deploy:appserver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lb.html">LB command interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lb.html#list-load-balancers-fab-lb-or-fab-lb-list">List load balancers : fab lb or fab lb.list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lb.html#register-instance-in-lb-fab-lb-register-instance-in-lb-lb-name-instance-id">Register instance in lb : fab lb.register_instance_in_lb: lb_name:instance_id</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lb.html#delete-instance-from-lb-fab-lb-deregister-instance-in-lb-lb-name-instance-id">Delete instance from lb : fab lb.deregister_instance_in_lb: lb_name:instance_id</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3 command interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="s3.html#list-buckets-fab-s3-or-fab-ec2-list-buckets">List buckets : fab s3 or fab ec2.list_buckets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="s3.html#create-bucket-fab-s3-create-bucket-bucket-name">Create bucket : fab s3.create_bucket:bucket_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="s3.html#delete-bucket-fab-s3-delete-bucket-bucket-name">Delete bucket : fab s3.delete_bucket:bucket_name</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">Service command interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="service.html#restart-a-service-fab-service-restart-service-name">Restart a service : fab service.restart:service_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="service.html#show-logs-fab-service-log-service-name">Show logs : fab service.log:service_name</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>

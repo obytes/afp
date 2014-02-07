@@ -35,7 +35,7 @@ def restart(service_name):
     for instance in instances:
         tags = instance.tags
         if instance.state == 'running' and 'Env' in tags:
-            if tags['Env'] == env.environment:
+            if tags['Env'] == env.environment and tags['Name'] == 'AppServer':
                 print(_yellow('Restarting service on instance: %s' %
                       instance.id))
                 env.host_string = instance.public_dns_name
@@ -79,7 +79,7 @@ def log(service_name):
     for instance in instances:
         tags = instance.tags
         if instance.state == 'running' and 'Env' in tags:
-            if tags['Env'] == env.environment:
+            if tags['Env'] == env.environment and tags['Name'] == 'AppServer':
                 print(_yellow('Restarting service on instance: %s' %
                       instance.id))
                 env.host_string = instance.public_dns_name
