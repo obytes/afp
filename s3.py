@@ -27,23 +27,6 @@ def list_buckets():
 
 
 @task()
-def get_bucket(bucket_name):
-    '''Get bucket details'''
-
-    start_time = time.time()
-    conn = S3Connection(ec2_key, ec2_secret)
-
-    try:
-        bucket = conn.get_bucket(bucket_name=bucket_name)
-    except Exception, e:
-        print(_red('Bucket error: {}'.format(str(e))))
-
-    print bucket
-    end_time = time.time()
-    print(_green("Runtime: %f minutes" % ((end_time - start_time) / 60)))
-
-
-@task()
 def create_bucket(bucket_name):
     '''Create a bucket'''
 
