@@ -20,7 +20,7 @@ def parse_ini(instance_type, check_all=True):
     parser = SafeConfigParser()
     parser.read(os.path.abspath('fabfile/conf/conf.ini'))
 
-    parser.set('CONFIG', 'FABULOUS_PATH',
+    parser.set('CONFIG', 'AFP_PATH',
                os.path.join(os.path.dirname(__file__), os.path.pardir))
     parser.set('CONFIG', 'SSH_SETTING_PATH', _base('settings/ssh'))
 
