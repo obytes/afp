@@ -7,7 +7,7 @@ Instalation
 -----
 Clone the repository, Rename afp folder to fabfile and Install project requirements :
 
-    1-git clone git@github.com:mo-mughrabi/afp.git
+    1-git clone git@github.com:obytes/afp.git
     2-mv afp fabfile
     3-pip install -r requirements.txt
 
